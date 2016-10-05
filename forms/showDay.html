@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Controle de Viagens</title>
+	
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="dist/css/bootstrap-select.css">
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="dist/js/bootstrap-select.js"></script>
+  </head>
+  
+  <body class="container">	
+	
+	<div style='font-size:8px;'>
+		<div class="nav navbar-nav navbar-right" >
+				<img src="img/ass.png" alt="Mountain View" style="width:100px;display: block; margin-top: 3px; margin-right: 10px;">
+		</div>
+		<h1>Consulta Detalhes - [DATE]</h1>
+		<hr>
+		<table style="width:100%;font-size:12px;">
+		  <tr>
+			<th style="text-align: center;">ID</th>
+			<th style="text-align: center;">Data inicial</th> 
+			<th style="text-align: center;">Data Final</th>
+			<th style="text-align: center;">Usuários</th>
+			<th style="text-align: center;">Empresa</th>
+			<th style="text-align: center;">Categoria</th>
+			<th style="text-align: center;">Valor</th>
+			<th style="text-align: center;">Local</th>
+			<th style="text-align: center;">Observações</th>			
+		  </tr>
+		  [CONTENT]
+		</table>
+		
+		<hr>		
+		<form action="detalhes.php" method="POST" target="_parent" style="width:30%; float:left;">
+			<input type='text' class="form-control" id = "new" name = "new" style="display: none;" value="[DATE]">
+			<button type = "submit" name="btn" id = "btn" class = "btn btn-primary">Novo detalhe...</button>
+		</form>
+		
+		<table align='right' style="font-size:14px;">
+		  <tr>			  				
+		    [TOTAL]
+		  </tr>	
+		  <tr>			  				
+		  </tr>	
+		</table>
+
+	</div>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+	
+	
+  </body>
+
+</html>

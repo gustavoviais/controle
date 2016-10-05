@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Controle de Viagens</title>
+	
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="dist/css/bootstrap-select.css">
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="dist/js/bootstrap-select.js"></script>
+  </head>
+  
+  <script language="javascript" type="text/javascript">
+		function mascaraData(val) {
+		  var pass = val.value;
+		  var expr = /[0123456789]/;
+
+		  for (i = 0; i < pass.length; i++) {
+			// charAt -> retorna o caractere posicionado no índice especificado
+			var lchar = val.value.charAt(i);
+			var nchar = val.value.charAt(i + 1);
+
+			if (i == 0) {
+			  // search -> retorna um valor inteiro, indicando a posição do inicio da primeira
+			  // ocorrência de expReg dentro de instStr. Se nenhuma ocorrencia for encontrada o método retornara -1
+			  // instStr.search(expReg);
+			  if ((lchar.search(expr) != 0) || (lchar > 3)) {
+				val.value = "";
+			  }
+
+			} else if (i == 1) {
+
+			  if (lchar.search(expr) != 0) {
+				// substring(indice1,indice2)
+				// indice1, indice2 -> será usado para delimitar a string
+				var tst1 = val.value.substring(0, (i));
+				val.value = tst1;
+				continue;
+			  }
+
+			  if ((nchar != '/') && (nchar != '')) {
+				var tst1 = val.value.substring(0, (i) + 1);
+
+				if (nchar.search(expr) != 0)
+				  var tst2 = val.value.substring(i + 2, pass.length);
+				else
+				  var tst2 = val.value.substring(i + 1, pass.length);
+
+				val.value = tst1 + '/' + tst2;
+			  }
+
+			} else if (i == 4) {
+
+			  if (lchar.search(expr) != 0) {
+				var tst1 = val.value.substring(0, (i));
+				val.value = tst1;
+				continue;
+			  }
+
+			  if ((nchar != '/') && (nchar != '')) {
+				var tst1 = val.value.substring(0, (i) + 1);
+
+				if (nchar.search(expr) != 0)
+				  var tst2 = val.value.substring(i + 2, pass.length);
+				else
+				  var tst2 = val.value.substring(i + 1, pass.length);
+
+				val.value = tst1 + '/' + tst2;
+			  }
+			}
+
+			if (i >= 6) {
+			  if (lchar.search(expr) != 0) {
+				var tst1 = val.value.substring(0, (i));
+				val.value = tst1;
+			  }
+			}
+		  }
+
+		  if (pass.length > 10)
+			val.value = val.value.substring(0, 10);
+		  return true;
+		}
+	</script>
+
+  
+  <body>
+	[HEADER]
+	<div class="container" style="font-size:12px;margin-top: -20px;">
+		<div style="margin-bottom:-10px;">
+			<h1>Consulta Detalhes</h1>
+		</div>
+		
+		<hr>
+		<form method="post" action="showAll.php">
+			<table style="width:100%">
+			  <tr>
+				<th style="text-align: left;"><input type = "text" value="[ID]" id = "id" name = "id" placeholder="*" style="width:32px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[DI]" id = "di" name = "di" placeholder="*" onkeypress="mascaraData(this)" maxlength="10" style="width:73px;margin-right:5px;margin-bottom:5px;"></th> 
+				<th style="text-align: left;"><input type = "text" value="[DF]" id = "df" name = "df" placeholder="*" onkeypress="mascaraData(this)" maxlength="10" style="width:73px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[NF]" id = "nf" name = "nf" placeholder="*" style="width:48px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[FORNECEDOR]" id = "fornecedor" name = "fornecedor" placeholder="*" style="width:75px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[TOTAL_NF]" id = "total_nf" name = "total_nf" placeholder="*" style="width:75px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[USER]" id = "user" name = "user" placeholder="*" style="width:220px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[EMP]" id = "emp" name = "emp" placeholder="*" style="width:92px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[CAT]" id = "cat" name = "cat" placeholder="*" style="width:80px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[VALUE]" id = "value" name = "value" placeholder="*" style="width:85px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;">				
+					<input type = "text" value="[OBS]" id = "obs" name = "obs" placeholder="*" style="width:228px;margin-bottom:5px;">
+					<button type = "submit" name="consultar" id = "consultar" style="margin-bottom:5px;display:none;">Ok</button>
+				</th>		
+			  </tr>
+			  
+			  <tr style="background-color:#008000;color:white;margin-top:10px;">
+				<th style="text-align: center;">ID</th>
+				<th style="text-align: center;">Data inicial</th> 
+				<th style="text-align: center;">Data Final</th>
+				<th style="text-align: center;">NF</th>
+				<th style="text-align: center;">Fornecedor</th>
+				<th style="text-align: center;">Total NF</th>
+				<th style="text-align: center;">Usuários</th>
+				<th style="text-align: center;">Empresa</th>
+				<th style="text-align: center;">Categoria</th>
+				<th style="text-align: center;">Valor (R$)</th>
+				<th style="text-align: center;">Observações</th>			
+			  </tr>
+			  [CONTENT]
+			</table>
+		</form>
+		
+		<hr>		
+		<table align='right' style="margin-bottom:25px;">
+		  <tr>			  				
+		    [TOTAL_PARCIAL]
+			[TOTAL]
+		  </tr>	
+		  <tr>			  				
+		  </tr>	
+		</table>
+		
+		<table align='right' style="float:left;">
+		  <tr>			  				
+		    [TOTAL_NOTA]
+		  </tr>	
+		  <tr>			  				
+		  </tr>	
+		</table>
+	</div>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+	
+	
+  </body>
+
+</html>

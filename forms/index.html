@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>Controle de Viagens</title>	
+    <link rel="stylesheet" href="jqwidgets/styles/jqx.base.css" type="text/css" />
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="scripts/demos.js"></script>	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdata.export.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdate.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscheduler.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxscheduler.api.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdatetimeinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxtooltip.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxwindow.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxnumberinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxradiobutton.js"></script>
+    <script type="text/javascript" src="jqwidgets/jqxinput.js"></script>
+    <script type="text/javascript" src="jqwidgets/globalization/globalize.js"></script>
+    <script type="text/javascript" src="jqwidgets/globalization/globalize.culture.de-DE.js"></script>
+	
+	<script type="text/javascript">
+			$(document).ready(function(){
+				$("a[rel=modal]").click( function(ev){
+					ev.preventDefault();
+
+					//alterado
+					var id = '.window';
+
+					var alturaTela = $(document).height();
+					var larguraTela = $(window).width();
+	
+					//colocando o fundo preto
+					$('#mascara').css({'width':larguraTela,'height':alturaTela});
+					$('#mascara').fadeIn(1000);	
+					$('#mascara').fadeTo("slow",0.8);
+
+					var left = ($(window).width() /2) - ( $(id).width() / 2 );
+					var top = ($(window).height() / 2) - ( $(id).height() / 2 );
+					
+					$(id).css({'top':top,'left':left});
+					
+					//inserido 
+					href = $(this).attr("href");
+					$('.window').load(href);
+
+					
+					$(id).show();	
+ 				});
+
+ 				$("#mascara").click( function(){
+ 					$(this).hide();
+ 					$(".window").hide();
+ 				});
+
+ 				$('.fechar').click(function(ev){
+ 					ev.preventDefault();
+ 					$("#mascara").hide();
+ 					$(".window").hide();
+ 				});
+			});
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+		function validar_login() {
+			var user = form.username.value;
+			var senha = form.password.value;
+			
+			if (user == "") {
+				alert('O campo usuário deve ser preenchido');
+				form.username.focus();
+				return false;
+			}
+			
+			if (senha == "") {
+				alert('O campo senha deve ser preenchido');
+				form.password.focus();
+				return false;
+			}			
+		}
+		
+	</script>
+	
+	<style type="text/css">						
+		.window2{
+			display:none;
+			width:1000px;
+			height:500px;
+			position:absolute;
+			left:0;
+			top:0;
+			background:#FFF;
+			z-index:9900;
+			padding:10px;
+			border-radius:10px;
+		}
+
+		#mascara2{
+			position:absolute;
+  			left:0;
+  			top:0;
+  			z-index:9000;
+  			background-color:#000;
+  			display:none;
+		}			
+
+		.fechar{display:block; text-align:right;}
+		.fechar2{display:block; text-align:right;}
+		
+		.seta {
+		  content: "";
+		  display: inline-block;
+		  vertical-align: middle;
+		  margin-right: 10px;
+		  margin-top: 3px;
+		  width: 0; 
+		  height: 0; 
+
+		  border-left: 5px solid transparent;
+		  border-right: 5px solid transparent;
+		  border-top: 5px solid #6495ED;
+		}
+		
+		html, body 
+		{ 
+			height: 100%; 
+			width: 100%; 
+			margin: 0; 
+		}
+}
+
+		</style>
+	
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var appointments = new Array();
+			var appointment = new Array();
+
+			appointment.push ({
+				id: "id1",
+				description: "George brings projector for presentations.",
+				location: "",
+				subject: "Quarterly Project Review Meeting",
+				calendar: "OK",
+				start: new Date(2014, 10, 23, 9, 0, 0),
+				end: new Date(2014, 10, 23, 16, 0, 0)
+			})
+
+            appointment.push ({
+                id: "id2",
+                description: "",
+                location: "",
+                subject: "",
+                calendar: " ",
+                start: new Date(2014, 10, 24, 10, 0, 0),
+                end: new Date(2014, 10, 24, 15, 0, 0)
+            })			
+			
+            appointment.push ({
+                id: "id3",
+                description: "",
+                location: "",
+                subject: "IT Group Mtg.",
+                calendar: "  ",
+                start: new Date(2014, 10, 24, 10, 0, 0),
+                end: new Date(2014, 10, 24, 15, 0, 0)
+            })			
+			
+            appointment.push ({
+                id: "id4",
+                description: "",
+                location: "",
+                subject: "IT Group Mtg.",
+                calendar: "Erro",
+                start: new Date(2014, 10, 24, 10, 0, 0),
+                end: new Date(2014, 10, 24, 15, 0, 0)
+            })
+			
+			appointments.push(appointment[0]);
+            appointments.push(appointment[1]);
+			appointments.push(appointment[2]);
+            appointments.push(appointment[3]);
+			
+			[CONTENT]			
+
+            // prepare the data
+			newViewType="monthView";
+            var source =
+            {
+                dataType: "array",
+                dataFields: [
+                    { name: 'id', type: 'string' },
+                    { name: 'description', type: 'string' },
+                    { name: 'location', type: 'string' },
+                    { name: 'subject', type: 'string' },
+                    { name: 'calendar', type: 'string' },
+                    { name: 'start', type: 'date' },
+                    { name: 'end', type: 'date' }
+                ],
+                id: 'id',
+                localData: appointments
+            };
+            var adapter = new $.jqx.dataAdapter(source);
+            $("#scheduler").jqxScheduler({				
+                date: new $.jqx.date(),
+                width: 'max',
+                height: '87%',
+                source: adapter,
+                view: 'monthView',
+                showLegend: false,
+                exportSettings: 
+                    {
+                        fileName: null
+                    },
+                //ready: function () {
+                //    $("#scheduler").jqxScheduler('ensureAppointmentVisible', 'id1');
+                //},
+                resources:
+                {
+                    colorScheme: "scheme05",
+                    dataField: "calendar",
+                    source:  new $.jqx.dataAdapter(source)
+                },
+                appointmentDataFields:
+                {
+                    from: "start",
+                    to: "end",
+                    id: "id",
+                    description: "description",
+                    location: "place",
+                    subject: "subject",
+                    resourceId: "calendar"
+                },
+                views:
+                [
+                    { type: "dayView", showWeekends: false, showWorkTime: false, timeRuler: { hidden: true, scale:'hour' } },
+                    { type: 'weekView', showTimeRangeStatus: true, showWorkTime: false, timeRuler: { hidden: true, scale:'hour' }},
+                    { type: 'monthView', monthRowAutoHeight: true }
+                ]
+            });
+			
+			$("#scheduler").on('viewChange', function (event) {
+                var args = event.args;
+                var from = args.from;
+                var to = args.to;
+                var date = args.date;
+				newViewType = args.newViewType;
+            });
+			
+			 $("#scheduler").on('dateChange', function (event) {
+                var args = event.args;
+                var from = args.from;
+                var to = args.to;
+                var date = args.date;
+				
+				
+				$("#scheduler").jqxScheduler({
+					view: newViewType,
+					views:
+					[
+						{ type: "dayView", showWeekends: false, showWorkTime: false, timeRuler: { hidden: true, scale:'hour' } },
+						{ type: 'weekView', showTimeRangeStatus: true, showWorkTime: false, timeRuler: { hidden: true, scale:'hour' }},
+						{ type: 'monthView', monthRowAutoHeight: true }
+					]
+				});
+            });
+			
+			$("#scheduler").on('appointmentClick', function (event) {                
+				var args = event.args;
+                var appointment = args.appointment;			
+
+				
+				//inserido 
+				//href = $(this).attr("href");
+				//location.replace("showDetail.php?id="+appointment.id);
+				$('#iframe').attr('src', "showDetail.php?id="+appointment.id);
+				$("#modalShowDetail").modal();
+            });
+			
+			$("#scheduler").on('cellClick', function (event) {				
+				 var args = event.args,
+                    cell = args.cell,
+                    dateObject = new $.jqx.date($(cell).attr('data-date')).toString();
+					
+				var split = dateObject.split(" ");
+				
+				event.preventDefault();
+
+				$('#iframe2').attr('src', 'showDay.php?date='+split[0]);		
+				$("#modalShowDay").modal();		
+            });
+
+			
+			$("#mascara2").click( function(){
+ 					$(this).hide();
+ 					$(".window2").hide();
+					location.reload();
+ 			});
+
+ 			$('.fechar2').click(function(ev){
+ 					ev.preventDefault();
+ 					$("#mascara2").hide();
+ 					$(".window2").hide();
+					location.reload();
+ 			});
+			
+            
+        });
+    </script>
+	
+	<script>
+	$(document).ready(function(){
+		$('[data-toggle="popover"]').popover(); 
+	});
+	</script>
+	
+	
+		</head>
+<body>
+[HEADER]
+	
+
+    <div id="scheduler" style='margin-left: 20px; margin-right: 20px;'></div>
+    
+	
+	<div id="log">
+    </div>
+	
+	<div class="window" id="janela1">
+			
+	</div>
+	
+	<div class="window2" id="janela2">
+			
+	</div>
+
+	<!-- mascara para cobrir o site -->	
+	<div id="mascara"></div>
+	<div id="mascara2"></div> 
+	
+	<!--modal showDetail-->	
+	<div class="modal fade" id="modalShowDetail" role="dialog" style="height:auto;">
+		<div class="modal-dialog" style="height:auto;">
+		  <div class="modal-content" style="height:auto;">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				  <label for = "lblt" id="lblt"><h4 class="modal-title">Detalhes</h4></label>
+				</div>				
+				<div class="modal-body">
+				  <iframe name="iframe" id="iframe" src="about:blank" frameborder="0" scrolling="no" style="height:300px;width:500px;"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--fim modal-->
+	
+	<!--modal showDay-->	
+	<div class="modal fade" id="modalShowDay" role="dialog" style="height:auto;width:auto;">
+		<div class="modal-dialog" style="height:auto;width:auto;">
+		  <div class="modal-content" style="height:auto;width:80%;margin:auto;">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>				
+				<div class="modal-body">
+				  <iframe name="iframe2" id="iframe2" src="about:blank" frameborder="0" scrolling="yes" style="height:70%;width:100%;"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--fim modal-->
+	
+</body>
+</html>
