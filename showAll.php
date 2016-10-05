@@ -1,5 +1,4 @@
-<?php
-	//v3
+<?php	
 	session_cache_expire(1);
 	session_start();
 	if(!isset($_SESSION["userrow"])){		
