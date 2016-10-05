@@ -8,8 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Controle de Viagens</title>
 	
-	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" href="dist/css/bootstrap-select.css">
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -102,7 +101,7 @@
 		
 		<hr>
 		<form method="post" action="showAll.php">
-			<table style="width:100%">
+			<table style="width:100%;">
 			  <tr>
 				<th style="text-align: left;"><input type = "text" value="[ID]" id = "id" name = "id" placeholder="*" style="width:32px;margin-right:5px;margin-bottom:5px;"></th>
 				<th style="text-align: left;"><input type = "text" value="[DI]" id = "di" name = "di" placeholder="*" onkeypress="mascaraData(this)" maxlength="10" style="width:73px;margin-right:5px;margin-bottom:5px;"></th> 
@@ -110,12 +109,12 @@
 				<th style="text-align: left;"><input type = "text" value="[NF]" id = "nf" name = "nf" placeholder="*" style="width:48px;margin-right:5px;margin-bottom:5px;"></th>
 				<th style="text-align: left;"><input type = "text" value="[FORNECEDOR]" id = "fornecedor" name = "fornecedor" placeholder="*" style="width:75px;margin-right:5px;margin-bottom:5px;"></th>
 				<th style="text-align: left;"><input type = "text" value="[TOTAL_NF]" id = "total_nf" name = "total_nf" placeholder="*" style="width:75px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[USER]" id = "user" name = "user" placeholder="*" style="width:220px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[EMP]" id = "emp" name = "emp" placeholder="*" style="width:92px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[USER]" id = "user" name = "user" placeholder="*" style="width:220px;margin-right:5px;margin-bottom:5px;"></th>				
 				<th style="text-align: left;"><input type = "text" value="[CAT]" id = "cat" name = "cat" placeholder="*" style="width:80px;margin-right:5px;margin-bottom:5px;"></th>
 				<th style="text-align: left;"><input type = "text" value="[VALUE]" id = "value" name = "value" placeholder="*" style="width:85px;margin-right:5px;margin-bottom:5px;"></th>
+				<th style="text-align: left;"><input type = "text" value="[REEMBOLSO]" id = "reembolso" name = "reembolso" placeholder="*" style="width:55px;margin-right:5px;margin-bottom:5px;"></th>
 				<th style="text-align: left;">				
-					<input type = "text" value="[OBS]" id = "obs" name = "obs" placeholder="*" style="width:228px;margin-bottom:5px;">
+					<input type = "text" value="[OBS]" id = "obs" name = "obs" placeholder="*" style="width:190px;margin-bottom:5px;">
 					<button type = "submit" name="consultar" id = "consultar" style="margin-bottom:5px;display:none;">Ok</button>
 				</th>		
 			  </tr>
@@ -127,11 +126,12 @@
 				<th style="text-align: center;">NF</th>
 				<th style="text-align: center;">Fornecedor</th>
 				<th style="text-align: center;">Total NF</th>
-				<th style="text-align: center;">Usuários</th>
-				<th style="text-align: center;">Empresa</th>
+				<th style="text-align: center;">Usuários</th>				
 				<th style="text-align: center;">Categoria</th>
 				<th style="text-align: center;">Valor (R$)</th>
+				<th style="text-align: center;">Reemb.</th>
 				<th style="text-align: center;">Observações</th>			
+				<th style="text-align: center;">Ação</th>			
 			  </tr>
 			  [CONTENT]
 			</table>
@@ -156,9 +156,49 @@
 		</table>
 	</div>
 	
+	<!--modal-->	
+	<div class="modal fade" id="modalDetalhes" role="dialog">
+		<div class="modal-dialog modal-lg">
+		  <div class="modal-content">
+			<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" onclick="location.reload()">&times;</button>
+				  <h4 class="modal-title">Detalhes</h4>
+			</div>
+			<iframe name="iframe2" id="iframe2" frameborder="0" scrolling="yes" style="height:500px;width:95%;margin-left:25px;margin-top:15px;"></iframe>
+		  </div>
+		</div>
+	</div>
+	<!--fim modal-->
+	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
-	
+	<script type="text/javascript">
+		function setModalValue (id, action){
+			/*switch(action){
+				case 0: 					
+					document.getElementById("lblt").innerHTML = "Entrega de Equipamento";
+					document.getElementById("lbl").innerHTML = "Nome";
+					document.getElementById("usr").style.display = 'block';
+					break;
+				case 1:
+					document.getElementById("lblt").innerHTML = "Devolução de Equipamento";
+					document.getElementById("lbl").innerHTML = "Deseja confirmar a devolução do equipamento selecionado?";
+					document.getElementById("usr").style.display = 'none';
+					break;
+				case 2:
+					document.getElementById("lblt").innerHTML = "Remover Registro";
+					document.getElementById("lbl").innerHTML = "Deseja remover o registro?";
+					document.getElementById("usr").style.display = 'none';
+					break;
+			}*/
+			document.getElementById("iframe2").src = "mdetalhes.php?id="+id;
+			//document.getElementById("acao").value = action;
+		}
+		
+		$('#modalDetalhes').on('hidden.bs.modal', function () {
+			 location.reload();
+		})
+	</script>
 	
   </body>
 

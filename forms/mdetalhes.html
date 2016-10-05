@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Controle de Viagens</title>	
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="dist/css/bootstrap-select.css">
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="dist/js/bootstrap-select.js"></script>
+  </head>
+  
+	<script type="text/javascript"> 
+		function changeInput($value, $pos){
+			document.getElementById("load").click();
+		}
+		
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+		function process(date){
+		   var parts = date.split("/");
+		   return new Date(parts[2], parts[1] - 1, parts[0]);
+		}
+		
+		function validar() {
+			var di = form.di.value;
+			var df = form.df.value;
+			var user = form.sel_usr.value;
+			var value = form.value.value;
+			
+			if (di == "") {
+				alert('A Data Inicial deve ser preenchida');
+				form.di.focus();
+				return false;
+			}
+			
+			if (df == "") {
+				alert('A Data Final deve ser preenchida');
+				form.df.focus();
+				return false;
+			}
+			
+			
+			
+			if (process(df) < process(di)) {
+				alert('A Data Final não pode ser menor que a Data Inicial');
+				form.df.focus();
+				return false;
+			}
+			
+			if (user == "") {
+				alert('Selecione o(s) usuário(s)');
+				form.sel_usr.focus();
+				return false;
+			}
+			
+			if (value == "") {
+				alert('O campo Valor deve ser preenchido');
+				form.value.focus();
+				return false;
+			}
+		}
+	</script>
+	
+	<script language="javascript" type="text/javascript">
+		function confirmar() {
+			if (confirm("Deseja realmente excluir o detalhe selecionado?") == true) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	</script>
+	
+	<script type="text/javascript">
+		function maskIt(w,e,m,r,a){
+		// Cancela se o evento for Backspace
+		if (!e) var e = window.event
+		if (e.keyCode) code = e.keyCode;
+		else if (e.which) code = e.which;
+		// Variáveis da função
+		var txt  = (!r) ? w.value.replace(/[^\d]+/gi,'') : w.value.replace(/[^\d]+/gi,'').reverse();
+		var mask = (!r) ? m : m.reverse();
+		var pre  = (a ) ? a.pre : "";
+		var pos  = (a ) ? a.pos : "";
+		var ret  = "";
+		if(code == 9 || code == 8 || txt.length == mask.replace(/[^#]+/g,'').length) return false;
+		// Loop na máscara para aplicar os caracteres
+		for(var x=0,y=0, z=mask.length;x<z && y<txt.length;){
+		if(mask.charAt(x)!='#'){
+		ret += mask.charAt(x); x++; } 
+		else {
+		ret += txt.charAt(y); y++; x++; } }
+		// Retorno da função
+		ret = (!r) ? ret : ret.reverse()	
+		w.value = pre+ret+pos; }
+		// Novo método para o objeto 'String'
+		String.prototype.reverse = function(){
+		return this.split('').reverse().join(''); };
+	</script>
+
+	<script language="javascript">
+		function number_format( number, decimals, dec_point, thousands_sep ) {
+		var n = number, c = isNaN(decimals = Math.abs(decimals)) ? 2 : decimals;
+		var d = dec_point == undefined ? "," : dec_point;
+		var t = thousands_sep == undefined ? "." : thousands_sep, s = n < 0 ? "-" : "";
+		var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+		return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+		}
+	</script>
+	
+	<style type="text/css">
+		.seta {
+		  content: "";
+		  display: inline-block;
+		  vertical-align: middle;
+		  margin-right: 10px;
+		  margin-top: 3px;
+		  width: 0; 
+		  height: 0; 
+
+		  border-left: 5px solid transparent;
+		  border-right: 5px solid transparent;
+		  border-top: 5px solid #6495ED;
+		}
+		
+		input::-webkit-calendar-picker-indicator {
+              opacity: 100;
+        }
+	</style>
+	
+  <body>
+	
+	<form role = "form" method="post" name="form" action="mdetalhes.php">
+		<div class="form-group" style="width:100%; float:left;">
+			<select class="form-control" id="sel" name="sel" onChange="changeInput(sel.options[sel.selectedIndex].text, sel.value)">
+					[OPTIONS]
+			</select>
+		</div>
+		
+		
+		
+		<div class = "form-group" style="width:100%; float:left; margin-right:10px;">
+			<label for = "name">Nota Fiscal *</label><br>
+		    <select class="form-control" id="nf" name="nf" style="width:46.7%;float:left;margin-right:10px;">
+					[NF]
+			</select>
+		</div>
+	
+		<div class="container" style="margin-left: -15px;width:50%; float:left; margin-right:10px;">
+			<label for = "name">Data Inicial *</label>
+			<div class="row">
+				<div class='col-sm-12'>
+					<div class="form-group">
+						<div class='input-group date' id='datetimepicker1' data-date-format="dd/mm/yyyy">
+							<input type='text' class="form-control" style="width:100%;" id = "di" name = "di" placeholder = "Selecione a data inicial..." value="[DI]"/>
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>        
+			</div>
+		</div>
+		
+		<div class="container" style="margin-left: -15px;width:50%; float:left; margin-right:10px;">
+			<label for = "name" >Data Final *</label>
+			<div class="row">
+				<div class='col-sm-15'>
+					<div class="form-group">
+						<div class='input-group date' id='datetimepicker2' data-date-format="dd/mm/yyyy">
+							<input type='text' class="form-control" id = "df" name = "df" placeholder = "Selecione a data final..." value="[DF]"/>
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>        
+			</div>
+		</div>
+		
+		<div style="width:30%; float:left; margin-right:10px;">
+			<label for = "name">Usuário(s) *</label>
+			<div class="form-group" >
+				<select class="selectpicker" data-width="100%" data-actions-box="true" id="sel_usr" name="sel_usr[]" multiple>
+				  [OPTIONS_USR]
+				</select>
+			</div>
+		</div>
+	   
+	   <div class="form-group" style="width:15%; float:left; margin-right:10px;">
+			<label for = "name">Empresa *</label>
+			<select class="form-control" id="sel_emp" name="sel_emp" >
+					[OPTIONS_EMP]
+			</select>
+		</div>
+		
+		<div class="form-group" style="width:30%; float:left; margin-right:10px;">
+			<label for = "name">Categoria *</label>
+			<select class="form-control" id="sel_cat" name="sel_cat" >
+					[OPTIONS_CAT]
+			</select>
+		</div>
+		
+		<div class = "form-group" style="width:20%; float:left; margin-right:10px;">
+		  <label for = "name">Localização</label>
+		  <input type = "text" class = "form-control" id = "local" name = "local" placeholder = "Digite a localização..." value="[LOCAL]">
+	    </div>
+		
+		<div class = "form-group" style="width:100%; float:left; margin-right:10px;">
+		  <label for = "name" >Valor *</label><br>		  
+		  <input  style="width:30%; float:left;" type = "text" class = "form-control" id = "value" name = "value" placeholder = "Digite o valor..." 
+				 onKeyUp="maskIt(this,event,'###.###.###,##',true)" value="[VALUE]">
+		  <div class="checkbox" style="width:30%; float:left;margin-top:7px;margin-left:20px;">
+		    <label><input type="checkbox" value="1" id="reembolso" name="reembolso" [REEMBOLSO]>Cobrar Reembolso</label>
+		  </div><br><br>
+	   </div>
+	   
+	   <div class="form-group" style="width:100%; float:left; margin-right:10px;">
+		  <label for="comment">Observações</label>
+		  <textarea class="form-control" rows="1" id="comment" name="comment">[OBS]</textarea>
+	   </div>
+	   
+	   <div class="form-group" style="width:100%; float:left; margin-right:10px;">		   
+		   <button type = "submit" name="save" id = "save" class = "btn btn-primary" onclick="return validar()" style="[EXIBIR]">Salvar</button>
+		   <button type = "submit" name="delete" class = "btn btn-default" style="[EXIBIR]" onclick="return confirmar()">Excluir</button>		  
+	   </div>	   
+	</form>
+	</div>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+	<script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({ 
+				language:  'en',
+				weekStart: 1,
+				todayBtn:  1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 0 }); 
+            });
+			
+			 $(function () {
+                $('#datetimepicker2').datetimepicker({ 
+				language:  'en',
+				weekStart: 1,
+				todayBtn:  1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 0 }); 
+            });
+    </script>
+	<script type="text/javascript">
+		document.querySelector('input[list]').addEventListener('input', function(e) {
+		  var input = e.target,
+			list = input.getAttribute('list'),
+			options = document.querySelectorAll('#' + list + ' option'),
+			hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
+			label = input.value;
+
+		  hiddenInput.value = label;
+
+		  for (var i = 0; i < options.length; i++) {
+			var option = options[i];
+
+			if (option.innerText === label) {
+			  hiddenInput.value = option.getAttribute('data-value');
+			  break;
+			}
+		  }
+		});
+
+		// For debugging purposes
+		document.getElementById("form").addEventListener('submit', function(e) {
+		  var value = document.getElementById('answer-hidden').value;
+		  document.getElementById('result').innerHTML = value;
+		  document.getElementById('answer').innerHTML = value;
+		  e.preventDefault();
+		});
+	</script>
+	
+	
+  </body>
+
+</html>

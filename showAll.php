@@ -96,10 +96,10 @@
 		else
 			$output= str_replace("[USER]", "", $output);
 		
-		if(isset($_POST['emp']))
-			$output= str_replace("[EMP]", $_POST['emp'], $output);
+		if(isset($_POST['reembolso']))
+			$output= str_replace("[REEMBOLSO]", $_POST['reembolso'], $output);
 		else
-			$output= str_replace("[EMP]", "", $output);
+			$output= str_replace("[REEMBOLSO]", "", $output);
 		
 		if(isset($_POST['cat']))
 			$output= str_replace("[CAT]", $_POST['cat'], $output);
@@ -181,10 +181,14 @@
 		else
 			$_SESSION['user'] = "";			
 		
-		if((isset($_POST['emp']))&&($_POST['emp'] != "")&&($_POST['emp'] != "*"))
-			$_SESSION['emp'] = " AND e.nome LIKE '%".$_POST['emp']."%'";
-		else
-			$_SESSION['emp'] = "";	
+		if((isset($_POST['reembolso']))&&($_POST['reembolso'] != "")&&($_POST['reembolso'] != "*")){
+			if($_POST['reembolso']=="s" || $_POST['reembolso']=="si" || $_POST['reembolso']=="sim" || $_POST['reembolso']=="S" || $_POST['reembolso']=="SIM" || $_POST['reembolso']=="Sim"  )
+				$reembolso = 1;
+			else
+				$reembolso = 0;
+			$_SESSION['reembolso'] = " AND d.reembolso = ".$reembolso."";
+		}else
+			$_SESSION['reembolso'] = "";	
 
 		if((isset($_POST['cat']))&&($_POST['cat'] != "")&&($_POST['cat'] != "*"))
 			$_SESSION['cat'] = " AND c.desc LIKE '%".$_POST['cat']."%'";
