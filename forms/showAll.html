@@ -118,8 +118,11 @@
 					<button type = "submit" name="consultar" id = "consultar" style="margin-bottom:5px;display:none;">Ok</button>
 				</th>
 			    <th style="text-align:right;">
+					<a href='' onClick="javascript:location.reload();return false;" style="text-decoration:none;margin-bottom:5px;">
+						<img src="img/refresh.png" style="margin-right:8px;width:23px;margin-bottom:8px;">
+					</a>
 					<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick="setModalValue(-1,1)" style="text-decoration:none;margin-bottom:5px;">
-						<img src="img/add.png" style="margin-right:5px;width:17px;margin-bottom:8px;">
+						<img src="img/add.png" style="margin-right:5px;width:17px;margin-bottom:7px;">
 					</a>
 				</th>
 			  </tr>
@@ -197,10 +200,6 @@
 			}else
 				document.getElementById("iframe2").src = "mdetalhes.php?id="+id;
 		}
-		
-		$('#modalDetalhes').on('hidden.bs.modal', function () {
-			 location.reload();
-		})
 	</script>
 	
   </body>
