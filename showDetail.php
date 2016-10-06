@@ -16,6 +16,5 @@
 		$output = carrega($_GET["id"], $output);
 		
 		echo $output;		
-	}
-	
+	}	
 ?>

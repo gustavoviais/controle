@@ -105,11 +105,15 @@
 						<td align='center' style='padding-left:5px;padding-right:5px;padding-top:3px; padding-bottom:3px; min-width:30px;'>".$reembolso."</td>
 						<td align='center' style='padding-left:5px;padding-right:5px;padding-top:3px; padding-bottom:3px; min-width:30px;'>".$row->obs."</td>
 						<td align='center' style='padding-top:3px; padding-bottom:3px; min-width:75px;'>
-							<img src=img/del.ico style=margin-right:5px;width:17px;>
-							<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",0) style='text-decoration:none;' >
+							<a href='mdetalhes.php?id=".$row->id_details."&action=0' onClick='return confirmar();' style='text-decoration:none;'>
+								<img src=img/del.ico style=margin-right:5px;width:17px;>
+							</a>
+							<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",1) style='text-decoration:none;'>
 								<img src=img/edit.png style=margin-right:5px;width:17px;>
 							</a>
-							<img src=img/find.ico style=margin-right:5px;width:17px;>
+							<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",2) style='text-decoration:none;'>
+								<img src=img/find.ico style=margin-right:5px;width:17px;>
+							</a>
 						</td>
 					<tr>";
 					

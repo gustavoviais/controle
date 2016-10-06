@@ -10,7 +10,14 @@
 	include "utils/valida.php";
 	
 	if(isset($_GET['id']) && $_GET['id']!=""){
-		carrega($_GET['id']);
+		if(isset($_GET['action']) && $_GET['action']!=""&& $_GET['action']==0){
+			deleta($_GET['id']);
+		}else{
+			if($_GET['id'] == (-1))
+				exibir();		
+			else
+				carrega($_GET['id']);
+		}
 	}else{
 	
 		switch (get_post_action('save', 'delete', 'load', 'consultar', 'save_login', 'sair')) {

@@ -82,16 +82,16 @@
 				WHERE `id_details` = '".$id."'";
 		
 		if ($conn->query($sql) === FALSE)
-				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('mdetalhes.php');</script>";
+				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('showAll.php');</script>";
 		
 		$sql = "DELETE FROM `details`
 				WHERE `id_details` = '".$id."'";
 		
 		if ($conn->query($sql) === FALSE)
-				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('mdetalhes.php');</script>";		
+				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('showAll.php');</script>";		
 		
 		
-		echo "<script type='text/javascript'>window.alert('Detalhe excluído com sucesso!');window.location.replace('mdetalhes.php');</script>";
+		echo "<script type='text/javascript'>window.alert('Detalhe excluído com sucesso!');window.location.replace('showAll.php');</script>";
 					
 		$conn->close();
 	}

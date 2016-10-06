@@ -116,7 +116,12 @@
 				<th style="text-align: left;">				
 					<input type = "text" value="[OBS]" id = "obs" name = "obs" placeholder="*" style="width:190px;margin-bottom:5px;">
 					<button type = "submit" name="consultar" id = "consultar" style="margin-bottom:5px;display:none;">Ok</button>
-				</th>		
+				</th>
+			    <th style="text-align:right;">
+					<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick="setModalValue(-1,1)" style="text-decoration:none;margin-bottom:5px;">
+						<img src="img/add.png" style="margin-right:5px;width:17px;margin-bottom:8px;">
+					</a>
+				</th>
 			  </tr>
 			  
 			  <tr style="background-color:#008000;color:white;margin-top:10px;">
@@ -147,7 +152,7 @@
 		  </tr>	
 		</table>
 		
-		<table align='right' style="float:left;">
+		<table align='right' style="float:left;margin-bottom:25px;">
 		  <tr>			  				
 		    [TOTAL_NOTA]
 		  </tr>	
@@ -173,26 +178,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
 	<script type="text/javascript">
+		function confirmar() {
+			if (confirm("Deseja realmente excluir o detalhe selecionado?") == true) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
 		function setModalValue (id, action){
-			/*switch(action){
-				case 0: 					
-					document.getElementById("lblt").innerHTML = "Entrega de Equipamento";
-					document.getElementById("lbl").innerHTML = "Nome";
-					document.getElementById("usr").style.display = 'block';
-					break;
-				case 1:
-					document.getElementById("lblt").innerHTML = "Devolução de Equipamento";
-					document.getElementById("lbl").innerHTML = "Deseja confirmar a devolução do equipamento selecionado?";
-					document.getElementById("usr").style.display = 'none';
-					break;
-				case 2:
-					document.getElementById("lblt").innerHTML = "Remover Registro";
-					document.getElementById("lbl").innerHTML = "Deseja remover o registro?";
-					document.getElementById("usr").style.display = 'none';
-					break;
-			}*/
-			document.getElementById("iframe2").src = "mdetalhes.php?id="+id;
-			//document.getElementById("acao").value = action;
+			if(action == 0){				
+				if(confirmar())
+					document.getElementById("iframe2").src = "mdetalhes.php?id="+id+"&action=0";
+				else
+					 location.reload();
+			}else if(action == 2){
+				document.getElementById("iframe2").src = "showDetail.php?id="+id;
+			}else
+				document.getElementById("iframe2").src = "mdetalhes.php?id="+id;
 		}
 		
 		$('#modalDetalhes').on('hidden.bs.modal', function () {
