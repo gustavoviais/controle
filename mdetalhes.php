@@ -7,7 +7,7 @@
 	}
 	
 	include "query/mdetalhes.php";
-	include "utils/valida.php";
+	include "utils/valida.php";	
 	
 	if(isset($_GET['id']) && $_GET['id']!=""){
 		if(isset($_GET['action']) && $_GET['action']!=""&& $_GET['action']==0){
