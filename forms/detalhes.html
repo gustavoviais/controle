@@ -16,6 +16,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="dist/js/bootstrap-select.js"></script>
 	<script src="js/jquery.maskMoney.js" type="text/javascript"></script>
+	<script src="js/jquery.maskedinput.js" type="text/javascript"></script>
   </head>
   
 	<script type="text/javascript"> 
@@ -149,6 +150,12 @@
 					<div class="form-group">
 						<div class='input-group date' id='datetimepicker2' data-date-format="dd/mm/yyyy">
 							<input type='text' class="form-control" id = "df" name = "df" placeholder = "Selecione a data final..." value="[DF]"/>
+							<script>
+								jQuery(function($){
+									 $("#di").mask("99/99/9999");
+									 $("#df").mask("99/99/9999");
+								});
+							</script>
 							<span class="input-group-addon">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</span>
