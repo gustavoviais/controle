@@ -156,7 +156,7 @@
 			$_SESSION['df'] = "";
 		
 		if((isset($_POST['nf']))&&($_POST['nf'] != "")&&($_POST['nf'] != "*"))
-			$_SESSION['nf'] = " AND nf.numero_nf=".$_POST['nf'];
+			$_SESSION['nf'] = " AND nf.numero_nf IN (".$_POST['nf'].")";
 		else
 			$_SESSION['nf'] = "";
 		
