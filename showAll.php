@@ -48,6 +48,11 @@
 		$content = getTotalParcial();
 		$output= str_replace("[TOTAL_PARCIAL]", $content, $output);	
 		
+		if(isset($_SESSION['numero_registros']))
+			$output= str_replace("[NUMERO_REGISTROS]", $_SESSION['numero_registros'], $output);
+		else
+			$output= str_replace("[NUMERO_REGISTROS]", "", $output);
+		
 		$content = getTotalNota();
 		$output= str_replace("[TOTAL_NOTA]", $content, $output);
 		

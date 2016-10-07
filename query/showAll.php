@@ -21,7 +21,8 @@
 				   nf.numero_nf,
 				   nf.total_nf,
 				   f.nome_fornecedor,
-				   d.reembolso
+				   d.reembolso,
+				   count(*) numero_registros
 			FROM details d 
 			INNER JOIN usuarios_details ud 
 				ON d.id_details=ud.id_details
@@ -54,8 +55,10 @@
 		 
 		$color=0;
 		$border=0;
+		$_SESSION['numero_registros'] = 0;
 		
 		while ($row = mysqli_fetch_object($result)) {
+			$_SESSION['numero_registros']++;
 			$st = getST($row->id_details, $row->id_cat, $row->valor, $row->di, $row->df);
 			$valor = str_replace(".", ",", $row->valor);			
 			$total_nf = str_replace(".", ",", $row->total_nf);			
@@ -83,8 +86,7 @@
 						$output.= "<tr style='color:red;border-bottom: thin solid #A9A9A9;'>";
 					else
 						$output.= "<tr style='color:red;border-top: solid #8b8b8b;'>";
-				}
-					
+				}					
 			}
 			
 			if($row->reembolso==0)
@@ -279,8 +281,13 @@
 				$output.="<td align='right' style='padding-left:5px;padding-right:5px;padding-top:5px;'><b>Valor por NF:</b></td>";
 			else
 				$output.="<td align='right' style='padding-left:5px;padding-right:5px;padding-top:5px;'></td>";
-			$output.="<td align='right' style='padding-left:5px;padding-right:5px;padding-top:5px;'>".$row->numero_nf.
-					   " (R$ ".$total_nf.") - ".$row->nome_fornecedor."...</td>		
+			if($total_nf!=$valor)
+				$output.="<td align='right' style='padding-left:5px;padding-right:5px;padding-top:5px;color:red;'>".$row->numero_nf.
+					   " (R$ ".$total_nf.") - ".$row->nome_fornecedor."...</td>
+					  <td align='right' style='padding-left:5px;padding-right:5px;padding-top:5px;color:red;'>R$ ".$valor."</td>";
+			else
+				$output.="<td align='right' style='padding-left:5px;padding-right:5px;padding-top:5px;'>".$row->numero_nf.
+					   " (R$ ".$total_nf.") - ".$row->nome_fornecedor."...</td>
 					  <td align='right' style='padding-left:5px;padding-right:5px;padding-top:5px;'>R$ ".$valor."</td>";
 			$output.= "</tr>";
 			
