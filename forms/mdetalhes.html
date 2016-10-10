@@ -38,6 +38,7 @@
 			var df = form.df.value;
 			var user = form.sel_usr.value;
 			var value = form.value.value;
+			var valor_total = form.valor_total.value;
 			
 			if (di == "") {
 				alert('A Data Inicial deve ser preenchida');
@@ -51,8 +52,6 @@
 				return false;
 			}
 			
-			
-			
 			if (process(df) < process(di)) {
 				alert('A Data Final não pode ser menor que a Data Inicial');
 				form.df.focus();
@@ -65,11 +64,19 @@
 				return false;
 			}
 			
+			if (valor_total == "") {
+				alert('O campo Valor Total deve ser preenchido');
+				form.valor_total.focus();
+				return false;
+			}
+			
 			if (value == "") {
-				alert('O campo Valor deve ser preenchido');
+				alert('O campo Valor Considerado deve ser preenchido');
 				form.value.focus();
 				return false;
 			}
+			
+			
 		}
 	</script>
 	

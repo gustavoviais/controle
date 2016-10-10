@@ -54,13 +54,13 @@
                 WHERE `id_details` = '".$id."'";
 				
 		if ($conn->query($sql) === FALSE)
-				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php');</script>";			
+				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php?id=".$id."');</script>";			
 			
 		$sql = "DELETE FROM `usuarios_details`
 				WHERE `id_details` = '".$id."'";
 		
 		if ($conn->query($sql) === FALSE)
-				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php');</script>";
+				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php?id=".$id."');</script>";
 			
 			
 		for($i=0; $i<count($id_usr); $i++){
@@ -68,7 +68,7 @@
 					VALUES ('".$id."', '".$id_usr[$i]."', ".$_SESSION["user_id"].", NOW())";							
 					
 			if ($conn->query($sql) === FALSE)
-				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php');</script>";						
+				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php?id=".$id."');</script>";						
 		}
 		
 		echo "<script type='text/javascript'>window.alert('Atualizado com sucesso!!');window.location.replace('mdetalhes.php?id=".$id."');</script>";
@@ -83,16 +83,16 @@
 				WHERE `id_details` = '".$id."'";
 		
 		if ($conn->query($sql) === FALSE)
-				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('mdetalhes.php');</script>";
+				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('showAll.php');</script>";
 		
 		$sql = "DELETE FROM `details`
 				WHERE `id_details` = '".$id."'";
 		
 		if ($conn->query($sql) === FALSE)
-				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('mdetalhes.php');</script>";		
+				echo "<script type='text/javascript'>window.alert('Não foi possível excluir o detalhe!');window.location.replace('showAll.php');</script>";		
 		
 		
-		echo "<script type='text/javascript'>window.alert('Detalhe excluído com sucesso!');window.location.replace('mdetalhes.php');</script>";
+		echo "<script type='text/javascript'>window.alert('Detalhe excluído com sucesso!');window.location.replace('showAll.php');</script>";
 					
 		$conn->close();
 	}

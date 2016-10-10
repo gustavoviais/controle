@@ -7,80 +7,115 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Controle de Viagens</title>
-	
+	<script src="scripts/jquery-1.11.2.js"></script>
 	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" href="dist/css/bootstrap-select.css">
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="dist/js/bootstrap-select.js"></script>
 	<script src="js/jquery.maskedinput.js" type="text/javascript"></script>
 	<script src="js/jquery.maskMoney.js" type="text/javascript"></script>
+	
+	<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">  
+	<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/date-uk.js"></script>
   </head>
   
+  <style type="text/css">
+	.numero_entradas{
+		margin-top:15px;
+		margin-bottom:-15px;
+	}
+	.paginacao{
+		margin-bottom:-15px;
+	}
+	table.dataTable td {
+		padding: 100px;
+	}
+	
+  </style>
+  
+  <script type="text/javascript">
+		$(document).ready( function () {
+			$('#tablesorter-imasters').DataTable({
+				"oLanguage": {
+					"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ regisros",
+					"sLengthMenu": "Mostrar _MENU_ registros"
+				},
+				"dom": 't<"numero_entradas"l><"paginacao"p><"paginacao"i><"clear">',
+				searching: false,				
+				"lengthMenu": [[-1, 25, 50, 100, 200], ["Todos", 25, 50, 100, 200]],
+				"order": [[ 0, "desc" ]],
+				columnDefs: [{ type: 'date-uk', targets: [1,2] }]
+			});
+		} );
+	</script>
+  
+	
   <body>
 	[HEADER]
-	<div class="container" style="font-size:12px;margin-top: -20px;">
+	<div style="font-size:12px;margin: auto;width:90%;align:center;">
 		<div style="margin-bottom:-10px;">
 			<h1>Consulta Detalhes</h1>
 		</div>
 		
 		<hr>
 		<form method="post" action="showAll.php">
-			<table style="width:100%;">
-			  <tr>
-				<th style="text-align: left;"><input type = "text" value="[ID]" id = "id" name = "id" placeholder="*" style="width:32px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[DI]" id = "di" name = "di" placeholder="*" style="width:73px;margin-right:5px;margin-bottom:5px;"></th> 
-				<th style="text-align: left;"><input type = "text" value="[DF]" id = "df" name = "df" placeholder="*" style="width:73px;margin-right:5px;margin-bottom:5px;">
-					<script>
-						jQuery(function($){
-							 $("#di").mask("99/99/9999");
-							 $("#df").mask("99/99/9999");
-						});
-					</script>
-				</th>
-				<th style="text-align: left;"><input type = "text" value="[NF]" id = "nf" name = "nf" placeholder="*" style="width:48px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[FORNECEDOR]" id = "fornecedor" name = "fornecedor" placeholder="*" style="width:75px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[TOTAL_NF]" id = "total_nf" name = "total_nf" placeholder="*" style="width:75px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[USER]" id = "user" name = "user" placeholder="*" style="width:220px;margin-right:5px;margin-bottom:5px;"></th>				
-				<th style="text-align: left;"><input type = "text" value="[CAT]" id = "cat" name = "cat" placeholder="*" style="width:80px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[VALUE]" id = "value" name = "value" placeholder="*" style="width:85px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;"><input type = "text" value="[REEMBOLSO]" id = "reembolso" name = "reembolso" placeholder="*" style="width:55px;margin-right:5px;margin-bottom:5px;"></th>
-				<th style="text-align: left;">				
-					<input type = "text" value="[OBS]" id = "obs" name = "obs" placeholder="*" style="width:190px;margin-bottom:5px;">
-					<button type = "submit" name="consultar" id = "consultar" style="margin-bottom:5px;display:none;">Ok</button>
-				</th>
-			    <th style="text-align:right;">
-					<a href='' onClick="javascript:location.reload();return false;" style="text-decoration:none;margin-bottom:5px;">
-						<img src="img/refresh.png" style="margin-right:8px;width:23px;margin-bottom:8px;">
-					</a>
-					<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick="setModalValue(-1,1)" style="text-decoration:none;margin-bottom:5px;">
-						<img src="img/add.png" style="margin-right:5px;width:17px;margin-bottom:7px;">
-					</a>
-				</th>
-			  </tr>
+			<table id="tablesorter-imasters" class="display" style="position: relative;display: block;margin: 10px auto;padding: 0;width: 100%;height: auto;border-collapse: collapse;text-align: center;">	
+				<thead>
+					<tr>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[ID]" id = "id" name = "id" placeholder="*" style="width:100%;"></th>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[DI]" id = "di" name = "di" placeholder="*" style="width:100%;"></th> 
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[DF]" id = "df" name = "df" placeholder="*" style="width:100%;">
+						<script>
+							jQuery(function($){
+								 $("#di").mask("99/99/9999");
+								 $("#df").mask("99/99/9999");
+							});
+						</script>
+					</th>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[NF]" id = "nf" name = "nf" placeholder="*" style="width:100%;"></th>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[FORNECEDOR]" id = "fornecedor" name = "fornecedor" placeholder="*" style="width:100%;"></th>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[TOTAL_NF]" id = "total_nf" name = "total_nf" placeholder="*" style="width:100%;"></th>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[USER]" id = "user" name = "user" placeholder="*" style="width:100%;"></th>				
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[CAT]" id = "cat" name = "cat" placeholder="*" style="width:100%;"></th>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[VALUE]" id = "value" name = "value" placeholder="*" style="width:100%;"></th>
+					<th colspan="1" style="text-align: left;"><input type = "text" value="[REEMBOLSO]" id = "reembolso" name = "reembolso" placeholder="*" style="width:100%;"></th>
+					<th colspan="1" style="text-align: left;">				
+						<input type = "text" value="[OBS]" id = "obs" name = "obs" placeholder="*" style="width:100%;">
+						<button type = "submit" name="consultar" id = "consultar" style="margin-bottom:5px;display:none;">Ok</button>
+					</th>
+					<th colspan="1" style="text-align:right;width:8%;">
+						<a href='' onClick="javascript:location.reload();return false;" style="text-decoration:none;margin-bottom:5px;">
+							<img src="img/refresh.png" style="margin-right:8px;width:23px;margin-bottom:8px;">
+						</a>
+						<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick="setModalValue(-1,1)" style="text-decoration:none;margin-bottom:5px;">
+							<img src="img/add.png" style="width:17px;margin-bottom:7px;">
+						</a>
+					</th>
+				  </tr>
+				  
+				  <tr style="background-color:#008000;color:white;margin-top:10px;">
+					<th style="text-align: center;width:11%;">ID</th>
+					<th style="text-align: center;width:11%;">D. Inicial</th> 
+					<th style="text-align: center;width:11%;">D. Final</th>
+					<th style="text-align: center;width:10%;">NF</th>
+					<th style="text-align: center;width:5%;">Fornecedor</th>
+					<th style="text-align: center;width:5%;">Total NF</th>
+					<th style="text-align: center;width:22%;">Usuários</th>				
+					<th style="text-align: center;width:5%;">Categoria</th>
+					<th style="text-align: center;width:5%;">Valor</th>
+					<th style="text-align: center;width:5%;">Reemb.</th>
+					<th style="text-align: center;width:5%;">Observações</th>			
+					<th style="text-align: center;width:5%;">Ação</th>			
+				  </tr>			  
+			  </thead>
 			  
-			  <tr style="background-color:#008000;color:white;margin-top:10px;">
-				<th style="text-align: center;">ID</th>
-				<th style="text-align: center;">Data inicial</th> 
-				<th style="text-align: center;">Data Final</th>
-				<th style="text-align: center;">NF</th>
-				<th style="text-align: center;">Fornecedor</th>
-				<th style="text-align: center;">Total NF</th>
-				<th style="text-align: center;">Usuários</th>				
-				<th style="text-align: center;">Categoria</th>
-				<th style="text-align: center;">Valor (R$)</th>
-				<th style="text-align: center;">Reemb.</th>
-				<th style="text-align: center;">Observações</th>			
-				<th style="text-align: center;">Ação</th>			
-			  </tr>
+			  <tbody>
 			  [CONTENT]
+			  </tbody>
 			</table>
 		</form>
-		<br>
-		<div style="float:right;">Total de registros: [NUMERO_REGISTROS]</div>
 		<hr>		
 		<table align='right' style="margin-bottom:25px;">
 		  <tr>			  				
@@ -114,7 +149,7 @@
 	</div>
 	<!--fim modal-->
 	
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    
     <script src="js/bootstrap.js"></script>
 	<script type="text/javascript">
 		function confirmar() {

@@ -1,6 +1,6 @@
 <?php
 	
-	function getAllContent(){
+	function getAllContent($orderby){
 		include "query/conexao.php";
 		include "query/index.php";
 				
@@ -21,8 +21,7 @@
 				   nf.numero_nf,
 				   nf.total_nf,
 				   f.nome_fornecedor,
-				   d.reembolso,
-				   count(*) numero_registros
+				   d.reembolso
 			FROM details d 
 			INNER JOIN usuarios_details ud 
 				ON d.id_details=ud.id_details
@@ -49,7 +48,7 @@
 				  ".$_SESSION['valor']."
 				  ".$_SESSION['obs']."
 		  GROUP BY nf.numero_nf, d.id_details
-		  ORDER BY nf.numero_nf desc, d.data_entrada
+		  ORDER BY ".$orderby."
 
 		");
 		 
@@ -61,32 +60,17 @@
 			$_SESSION['numero_registros']++;
 			$st = getST($row->id_details, $row->id_cat, $row->valor, $row->di, $row->df);
 			$valor = str_replace(".", ",", $row->valor);			
-			$total_nf = str_replace(".", ",", $row->total_nf);			
+			$total_nf = str_replace(".", ",", $row->total_nf);		
+
+			$obs = substr($row->obs,0,15);
 			
-			if($st == "OK"){
-				if($color%2!=0){
-					if(($border==$row->numero_nf)|| $border==0)
-						$output.= "<tr style='background-color:#a6f6bc;border-bottom: thin solid #A9A9A9;border-top: thin solid #A9A9A9;'>";
-					else
-						$output.= "<tr style='background-color:#a6f6bc;border-bottom: thin solid #A9A9A9;border-top: solid #8b8b8b;'>";
-				}else{
-					if(($border==$row->numero_nf)|| $border==0)
-						$output.= "<tr style='border-bottom: thin solid #A9A9A9;'>";
-					else
-						$output.= "<tr style='border-top: solid #8b8b8b;'>";
-				}
+			if($obs != "")
+				$obs = $obs . "...";			
+			
+			if($st == "OK"){				
+						$output.= "<tr style='border-bottom: thin solid #A9A9A9;'>";	
 			}else{
-				if($color%2!=0){
-					if(($border==$row->numero_nf) || $border==0)
-						$output.= "<tr style='background-color:#a6f6bc;color:red;border-bottom: thin solid #A9A9A9;border-top: thin solid #A9A9A9;'>";
-					else
-						$output.= "<tr style='background-color:#a6f6bc;color:red;border-bottom: thin solid #A9A9A9;border-top: solid #8b8b8b;'>";
-				}else{
-					if(($border==$row->numero_nf) || $border==0)
-						$output.= "<tr style='color:red;border-bottom: thin solid #A9A9A9;'>";
-					else
-						$output.= "<tr style='color:red;border-top: solid #8b8b8b;'>";
-				}					
+						$output.= "<tr style='color:red;border-bottom: thin solid #A9A9A9;'>";								
 			}
 			
 			if($row->reembolso==0)
@@ -105,7 +89,7 @@
 						<td align='center' style='padding-left:5px;padding-right:5px;padding-top:3px; padding-bottom:3px; min-width:30px;'>".$row->cat."</td>
 						<td align='center' style='padding-left:5px;padding-right:5px;padding-top:3px; padding-bottom:3px; min-width:80px;'>".$valor."</td>
 						<td align='center' style='padding-left:5px;padding-right:5px;padding-top:3px; padding-bottom:3px; min-width:30px;'>".$reembolso."</td>
-						<td align='center' style='padding-left:5px;padding-right:5px;padding-top:3px; padding-bottom:3px; min-width:30px;'>".$row->obs."</td>
+						<td align='center' style='padding-left:5px;padding-right:5px;padding-top:3px; padding-bottom:3px; min-width:30px;'>".$obs."</td>
 						<td align='center' style='padding-top:3px; padding-bottom:3px; min-width:75px;'>
 							<a href='mdetalhes.php?id=".$row->id_details."&action=0' onClick='return confirmar();' style='text-decoration:none;'>
 								<img src=img/del.ico style=margin-right:5px;width:17px;>
@@ -114,10 +98,10 @@
 								<img src=img/edit.png style=margin-right:5px;width:17px;>
 							</a>
 							<a href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",2) style='text-decoration:none;'>
-								<img src=img/find.ico style=margin-right:5px;width:17px;>
+								<img src=img/find.ico style=width:17px;>
 							</a>
 						</td>
-					<tr>";
+					</tr>";
 					
 			$color++;
 			$border=$row->numero_nf;

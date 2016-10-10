@@ -39,11 +39,17 @@
 		
 	function exibir(){
 		gerenciaSessao();
-		$content = getAllContent();
+		
+		if(isset($_GET["orderby"]))
+			$orderby=$_GET["orderby"];
+		else
+			$orderby="numero_nf desc, data_entrada";
+		
+		$content = getAllContent($orderby);
 		
 		$output = file_get_contents("forms/showAll.html");	
 		$output = loadHeader($output);
-		$output= str_replace("[CONTENT]", $content, $output);	
+		$output= str_replace("[CONTENT]", $content, $output);			
 		
 		$content = getTotalParcial();
 		$output= str_replace("[TOTAL_PARCIAL]", $content, $output);	
