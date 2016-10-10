@@ -1,5 +1,5 @@
 <?php	
-	function cadastra($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $local, $comment, $reembolso){
+	function cadastra($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $valor_total, $local, $comment, $reembolso){
 		include "query/conexao.php";
 		
 		$di_aux = explode("/", $di);
@@ -8,8 +8,8 @@
 		$df_aux = explode("/", $df);
 		$df = $df_aux[2]."-".$df_aux[1]."-".$df_aux[0];
 						
-		$sql = "INSERT INTO `details` (`id_nf`, `data_entrada`, `data_saida`, `valor`, `local`, `obs`, `id_emp`, `id_cat`, `user`, `dsy`, `reembolso`)
-				VALUES (".$nf.", '".$di."', '".$df."', ".$value.", '".$local."', '".$comment."', '".$id_emp."', '".$id_cat."', ".$_SESSION["user_id"].", NOW(), ".$reembolso.")";
+		$sql = "INSERT INTO `details` (`id_nf`, `data_entrada`, `data_saida`, `valor`, `valor_total`, `local`, `obs`, `id_emp`, `id_cat`, `user`, `dsy`, `reembolso`)
+				VALUES (".$nf.", '".$di."', '".$df."', ".$value.", ".$valor_total.", '".$local."', '".$comment."', '".$id_emp."', '".$id_cat."', ".$_SESSION["user_id"].", NOW(), ".$reembolso.")";
 				
 		if ($conn->query($sql) === FALSE)
 			echo "<script type='text/javascript'>window.alert('Não foi possível realizar o cadastro!');window.location.replace('detalhes.php');</script>";		
@@ -29,7 +29,7 @@
 		$conn->close();
 	}	
 	
-	function edita($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $local, $comment, $reembolso){
+	function edita($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $valor_total, $local, $comment, $reembolso){
 		include "query/conexao.php";
 		
 		$di_aux = explode("/", $di);
@@ -45,6 +45,7 @@
 						`id_emp` = '".$id_emp."', 
 						`id_cat` = '".$id_cat."', 
 						`valor` = ".$value.", 
+						`valor_total` = ".$valor_total.", 
 						`local` = '".$local."', 
 						`obs` = '".$comment."',
 						`user` = ".$_SESSION["user_id"].", 
@@ -340,6 +341,7 @@
 			SELECT data_entrada di, 
 				   data_saida df, 
 				   valor value, 
+				   valor_total valor_total, 
 				   local local, 
 				   obs obs,
 				   reembolso
@@ -355,6 +357,8 @@
 				$output= str_replace("[DF]", date('d/m/Y', strtotime($row->df)), $output);
 			$valor = str_replace(".", ",", $row->value);
 			$output= str_replace("[VALUE]", $valor, $output);
+			$valor_total = str_replace(".", ",", $row->valor_total);
+			$output= str_replace("[VALOR_TOTAL]", $valor_total, $output);
 			
 			if($row->reembolso)
 				$output= str_replace("[REEMBOLSO]", "checked", $output);

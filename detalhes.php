@@ -14,17 +14,20 @@
 			$valor = str_replace(".", "", $_POST['value']);
 			$valor = str_replace(",", ".", $valor);
 			
+			$valor_total = str_replace(".", "", $_POST['valor_total']);
+			$valor_total = str_replace(",", ".", $valor_total);
+			
 			$reembolso=0;
 			if(isset($_POST['reembolso']))
 				$reembolso = true;
 			
 			if($_POST['sel'] == 0){
 				cadastra($_POST['sel'], $_POST['nf'], $_POST['di'], $_POST['df'], $_POST['sel_usr'], $_POST['sel_emp'], $_POST['sel_cat'], 
-						 $valor, $_POST['local'], $_POST['comment'], $reembolso);
+						 $valor, $valor_total, $_POST['local'], $_POST['comment'], $reembolso);
 			}
 			else{
 				edita($_POST['sel'], $_POST['nf'], $_POST['di'], $_POST['df'], $_POST['sel_usr'], $_POST['sel_emp'], $_POST['sel_cat'], 
-					  $valor, $_POST['local'], $_POST['comment'], $reembolso);
+					  $valor, $valor_total, $_POST['local'], $_POST['comment'], $reembolso);
 			}
 			
 			break;
@@ -103,6 +106,7 @@
 			$output= str_replace("[DF]", "", $output);
 		}		
 		
+		$output= str_replace("[VALOR_TOTAL]", "", $output);
 		$output= str_replace("[VALUE]", "", $output);
 		$output= str_replace("[REEMBOLSO]", "", $output);
 		$output= str_replace("[LOCAL]", "", $output);
@@ -152,6 +156,7 @@
 		
 		$output= str_replace("[DI]", "", $output);
 		$output= str_replace("[DF]", "", $output);
+		$output= str_replace("[VALOR_TOTAL]", "", $output);
 		$output= str_replace("[VALUE]", "", $output);
 		$output= str_replace("[REEMBOLSO]", "", $output);
 		$output= str_replace("[LOCAL]", "", $output);

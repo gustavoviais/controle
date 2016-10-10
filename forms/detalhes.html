@@ -189,16 +189,14 @@
 		</div>
 		
 		<div class = "form-group">
-		  <label for = "name" >Valor *</label><br>
-		  <select class="form-control" id="sel_op" name="sel_op" style="width:6%; float:left; margin-right:10px;[CONSULTAR]" >
-				<option value='='>=</option>
-				<option value='>'>></option>
-				<option value='<'><</option>
-				<option value='>='>>=</option>
-				<option value='<='><=</option>
-				<option value='<>'><></option>
-		  </select>
-		  <input  style="width:30%; float:left;" type = "text" class = "form-control" id = "value" name = "value" placeholder = "Digite o valor..." value="[VALUE]">
+		  <label for = "name" >Valor Total *</label><br>		  
+		  <input  style="width:30%; float:left;" type = "text" class = "form-control" id = "valor_total" name = "valor_total" placeholder = "Digite o valor total..." value="[VALOR_TOTAL]">
+		  <script type="text/javascript">$("#valor_total").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});</script>
+	   </div><br><br>
+		
+		<div class = "form-group">
+		  <label for = "name" >Valor Considerado *</label><br>		  
+		  <input  style="width:30%; float:left;" type = "text" class = "form-control" id = "value" name = "value" placeholder = "Digite o valor considerado..." value="[VALUE]">
 		  <script type="text/javascript">$("#value").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});</script>
 	   </div>
 	   
