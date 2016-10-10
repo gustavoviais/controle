@@ -10,6 +10,7 @@
 				   e.nome emp, 
 				   c.desc cat, 
 				   d.valor, 
+				   d.valor_total, 
 				   c.limite,
 				   d.local local, 
 				   d.obs,
@@ -48,6 +49,8 @@
 			$output= str_replace("[CAT]", $row->cat." (R$ ".$limite.")", $output);
 			$valor = str_replace(".", ",", $row->valor);
 			$output= str_replace("[VALOR]", $valor, $output);
+			$valor_total = str_replace(".", ",", $row->valor_total);
+			$output= str_replace("[VALOR_TOTAL]", $valor_total, $output);
 			$vnf = str_replace(".", ",", $row->total_nf);
 			$output= str_replace("[VNF]", $vnf, $output);
 			$output= str_replace("[NF]", $row->numero_nf, $output);
