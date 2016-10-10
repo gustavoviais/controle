@@ -11,12 +11,15 @@
 	
 	switch (get_post_action('save', 'delete', 'load', 'save_login', 'sair')) {
 		case 'save':
+		
+			$limite = str_replace(".", "", $_POST['limit']);
+			$limite = str_replace(",", ".", $limite);
 			
 			if($_POST['sel'] == 0){
-				cadastra($_POST['name'], $_POST['limit']);
+				cadastra($_POST['name'], $limite);
 			}
 			else{
-				edita($_POST['sel'], $_POST['name'], $_POST['limit']);
+				edita($_POST['sel'], $_POST['name'], $limite);
 			}
 			
 			break;

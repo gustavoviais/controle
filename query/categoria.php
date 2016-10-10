@@ -22,10 +22,10 @@
 		include "query/conexao.php";
 				
 		$sql = "UPDATE `categoria` SET `desc` = '".$nome."', 
-									   `limite` = '".$limit."', 
+									   `limite` = ".$limit.", 
 									   `user` = ".$_SESSION["user_id"].", 
 									   `dsy` = NOW()
-                WHERE `id_cat` = '".$id."'";
+                WHERE `id_cat` = ".$id."";
 
 		if ($conn->query($sql) === TRUE) {
 			echo "<script type='text/javascript'>window.alert('Atualizado com sucesso!');window.location.replace('categoria.php');</script>";
