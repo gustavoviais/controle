@@ -108,7 +108,7 @@
 		else
 			$result = mysqli_query($conn, "SELECT DISTINCT F.id_fornecedor,
 												F.nome_fornecedor,
-												NF.id_nf
+												-1 id_nf
 											FROM fornecedor F
 												LEFT JOIN nota_fiscal NF
 														ON NF.id_fornecedor = F.id_fornecedor
