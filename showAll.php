@@ -147,7 +147,7 @@
 	
 	function gerenciaSessao(){		
 		if((isset($_POST['id']))&&($_POST['id'] != "")&&($_POST['id'] != "*"))
-			$_SESSION['id'] = " AND d.id_details=".$_POST['id'];
+			$_SESSION['id'] = " AND d.id_details IN (".$_POST['id'].")";
 		else
 			$_SESSION['id'] = "";		
 		

@@ -118,23 +118,23 @@
 		//for($i=0;$i<$aux;$i++){		
 			if($di==$df){			
 				$result = mysqli_query($conn, "
-					select round(sum(
-							d.valor/
-							(select count(id_usr) from usuarios_details where id_details=d.id_details)/
-							(DATEDIFF(d.data_saida, d.data_entrada)+1)
-					),2) as soma
-					from details d 
-						inner join usuarios_details ud on d.id_details=ud.id_details
-					where ud.id_usr IN (".join(',',$users).")
-						  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
-						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
-						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
-						  and d.id_cat=".$cat."
-						  and d.reembolso=0
+					select round(sum(v.soma),2) soma 
+					from (select DISTINCT
+					      		(d.valor/
+					      		(select count(id_usr) from usuarios_details where id_details=d.id_details)/
+					      		(DATEDIFF(d.data_saida, d.data_entrada)+1)) soma					
+					      from details d 
+					      	inner join usuarios_details ud on d.id_details=ud.id_details
+					      where ud.id_usr IN (".join(',',$users).")
+					      	  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
+					      	  OR d.data_saida BETWEEN '".$di."' and '".$df."'
+					      	  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
+					      	  and d.id_cat=".$cat."
+					      	  and d.reembolso=0) v
 				");
 			}else{
 				$result = mysqli_query($conn, "
-					select  round(sum(
+					select distinct round(sum(
 								d.valor/
 								(select count(id_usr) from usuarios_details where id_details=d.id_details)/
 								(CASE WHEN (DATEDIFF(d.data_saida, d.data_entrada)+1) > ".$dias." THEN (DATEDIFF(d.data_saida, d.data_entrada)+1) ELSE ".$dias." END))
