@@ -24,6 +24,21 @@
 	<form role = "form" method="post" name="form" action="detalhes.php" target="_parent" style='margin-bottom: 35px;'>
 		
 		<div class="form-group">
+		<table cellpadding="1.5" border="1" style="float:right;">
+				<tr>
+					<th colspan="5" style="text-align:center;padding:5px;">Detalhes utilizados para cálculo do limite diário</th>
+				</tr>
+				<tr>
+					<th style="text-align:center;padding:2px;">ID Detalhe</th>
+					<th style="text-align:center;padding:2px;">Valor Detalhe</th>
+					<th style="text-align:center;padding:2px;">Nº usuários</th>
+					<th style="text-align:center;padding:2px;">Qtde. dias</th>
+					<th style="text-align:center;padding:2px;">V. Líquido</th>
+				</tr>
+				<tr>
+					[TABLE_LIMIT]
+				</tr>
+			</table>
 			ID Detalhe: <label for = "name">[ID]</label><br>			
 			Data Inicial: <label for = "name">[DI]</label><br>
 			Data Final: <label for = "name">[DF]</label><br>
@@ -38,7 +53,8 @@
 			Valor considerado do Detalhe: <label for = "name">R$ [VALOR]</label><br>
 			Reembolsar: <label for = "name">[REEMBOLSO]</label><br>			
 			Local: <label for = "name">[LOCAL]</label><br>
-			Observações: <label for = "name">[OBS]</label><br>			
+			Observações: <label for = "name">[OBS]</label><br>	
+		    
 		</div>		
 	   
 	   <button type = "submit" name="load" id = "load" class = "btn btn-primary" value="[LOAD]">Editar</button>

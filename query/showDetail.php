@@ -9,6 +9,7 @@
 				   group_concat(u.nome) nome, 
 				   e.nome emp, 
 				   c.desc cat, 
+				   c.id_cat id_cat, 
 				   d.valor, 
 				   d.valor_total, 
 				   c.limite,
@@ -62,6 +63,9 @@
 				$output= str_replace("[REEMBOLSO]", "Não", $output);
 			else
 				$output= str_replace("[REEMBOLSO]", "Sim", $output);
+			
+			$tabela_limite = getST($row->id_details, $row->id_cat, $row->valor, $row->di, $row->df);
+			$output= str_replace("[TABLE_LIMIT]", $tabela_limite, $output);
 		}
 		$conn->close();
 		
@@ -86,6 +90,122 @@
 		echo "<script type='text/javascript'>window.alert('Detalhe excluído com sucesso!');window.location.replace('index.php');</script>";
 					
 		$conn->close();
+	}
+	
+	function getST($id, $cat, $valor, $di, $df){
+		// echo $id."<br>";
+		// echo $cat."<br>";
+		// echo $valor;
+		// echo $di;
+		// echo $df;
+		include "query/conexao.php";
+		$content="";
+		
+		$dias=0;
+		$dias = date_diff(date_create($di), date_create($df));    
+		$dias = $dias->format('%a');
+		$dias++;
+		
+		$users = array();
+		$result = mysqli_query($conn, "SELECT distinct id_usr FROM usuarios_details where id_details=".$id."");
+		
+		$aux=0;
+		while ($row = mysqli_fetch_object($result)) {
+			$users[$aux] = $row->id_usr;
+			$aux++;			
+		}
+		
+		for($i=0;$i<$aux;$i++){		
+			if($di==$df){			
+				$result = mysqli_query($conn, "
+					select round(sum(
+							d.valor/
+							(select count(id_usr) from usuarios_details where id_details=d.id_details)/
+							(DATEDIFF(d.data_saida, d.data_entrada)+1)
+					),2) as soma
+					from details d 
+						inner join usuarios_details ud on d.id_details=ud.id_details
+					where ud.id_usr=".$users[$i]."
+						  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
+						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
+						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
+						  and d.id_cat=".$cat."
+				");
+			}else{
+				$result = mysqli_query($conn, "
+					select  round(sum(
+								d.valor/
+								(select count(id_usr) from usuarios_details where id_details=d.id_details)/
+								(CASE WHEN (DATEDIFF(d.data_saida, d.data_entrada)+1) > ".$dias." THEN (DATEDIFF(d.data_saida, d.data_entrada)+1) ELSE ".$dias." END))
+							,2) as soma					
+					from details d 
+						inner join usuarios_details ud on d.id_details=ud.id_details
+					where ud.id_usr=".$users[$i]."
+						  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
+						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
+						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
+						  and d.id_cat=".$cat."
+				");
+			}
+			
+			while ($row = mysqli_fetch_object($result)) {
+				$soma = $row->soma;
+			}
+		}
+		
+		for($i=0;$i<$aux;$i++){		
+			if($di==$df){			
+				$result = mysqli_query($conn, "
+					select  d.id_details,
+							d.valor valor,
+							(select count(id_usr) from usuarios_details where id_details=d.id_details) user,
+							(DATEDIFF(d.data_saida, d.data_entrada)+1) dias,
+							round((d.valor/
+								(select count(id_usr) from usuarios_details where id_details=d.id_details)/
+								(DATEDIFF(d.data_saida, d.data_entrada)+1)),2) liquido
+					from details d 
+						inner join usuarios_details ud on d.id_details=ud.id_details
+					where ud.id_usr=".$users[$i]."
+						  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
+						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
+						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
+						  and d.id_cat=".$cat."
+				");
+			}else{
+				$result = mysqli_query($conn, "
+					select  d.id_details,
+							d.valor valor,
+							(select count(id_usr) from usuarios_details where id_details=d.id_details) user,
+							(CASE WHEN (DATEDIFF(d.data_saida, d.data_entrada)+1) > ".$dias." THEN (DATEDIFF(d.data_saida, d.data_entrada)+1) ELSE ".$dias." END) dias,
+							(round(d.valor/
+								(select count(id_usr) from usuarios_details where id_details=d.id_details)/
+								(CASE WHEN (DATEDIFF(d.data_saida, d.data_entrada)+1) > ".$dias." THEN (DATEDIFF(d.data_saida, d.data_entrada)+1) ELSE ".$dias." END),2)) liquido
+					from details d 
+						inner join usuarios_details ud on d.id_details=ud.id_details
+					where ud.id_usr=".$users[$i]."
+						  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
+						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
+						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
+						  and d.id_cat=".$cat."
+				");
+			}
+			
+			while ($row = mysqli_fetch_object($result)) {
+				$content.= "<tr>
+								<th style='text-align:center;'>".$row->id_details."</th>
+								<th style='text-align:center;'>".$row->valor."</th>
+								<th style='text-align:center;'>".$row->user."</th>
+								<th style='text-align:center;'>".$row->dias."</th>
+								<th style='text-align:center;'>".$row->liquido."</th>
+							</tr>";
+			}
+		}
+		$content.= "<tr><th colspan='5' style='text-align:right;'>Soma: ".$soma."</th></tr>";
+		
+		
+		$conn->close();
+		
+		return $content;
 	}
 	
 ?>

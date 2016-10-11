@@ -121,10 +121,11 @@
 				");
 			}else{
 				$result = mysqli_query($conn, "
-					select 
-							sum(d.valor)/
-							max((select count(id_usr) from usuarios_details where id_details=d.id_details))/
-							max((DATEDIFF(d.data_saida, d.data_entrada)+1)) as soma					
+					select  round(sum(
+								d.valor/
+								(select count(id_usr) from usuarios_details where id_details=d.id_details)/
+								(CASE WHEN (DATEDIFF(d.data_saida, d.data_entrada)+1) > ".$dias." THEN (DATEDIFF(d.data_saida, d.data_entrada)+1) ELSE ".$dias." END))
+							,2) as soma					
 					from details d 
 						inner join usuarios_details ud on d.id_details=ud.id_details
 					where ud.id_usr=".$users[$i]."
