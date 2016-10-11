@@ -118,6 +118,7 @@
 						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
 						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
 						  and d.id_cat=".$cat."
+						  and d.reembolso=0
 				");
 			}else{
 				$result = mysqli_query($conn, "
@@ -133,6 +134,7 @@
 						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
 						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
 						  and d.id_cat=".$cat."
+						  and d.reembolso=0
 				");
 			}
 			
