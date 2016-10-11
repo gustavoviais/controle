@@ -203,7 +203,7 @@
 						</tr>";
 		}
 	
-		$content.= "<tr><th colspan='5' style='text-align:right;'>Soma: ".$soma."</th></tr>";
+		$content.= "<tr><th colspan='5' style='text-align:right;padding-right:5px;'>Soma: ".$soma."</th></tr>";
 		
 		
 		$conn->close();
