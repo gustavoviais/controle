@@ -92,7 +92,7 @@
 			$aux++;			
 		}
 		
-		for($i=0;$i<$aux;$i++){
+		//for($i=0;$i<$aux;$i++){
 			
 			/*$result = mysqli_query($conn, "
 				select sum(d.valor/(select count(id_usr) from usuarios_details where id_details=d.id_details)/(DATEDIFF(d.data_saida, d.data_entrada)+1)) as soma
@@ -113,7 +113,7 @@
 					) as soma
 					from details d 
 						inner join usuarios_details ud on d.id_details=ud.id_details
-					where ud.id_usr=".$users[$i]."
+					where ud.id_usr IN (".join(',',$users).")
 						  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
 						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
 						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
@@ -129,7 +129,7 @@
 							,2) as soma					
 					from details d 
 						inner join usuarios_details ud on d.id_details=ud.id_details
-					where ud.id_usr=".$users[$i]."
+					where ud.id_usr IN (".join(',',$users).")
 						  and (d.data_entrada BETWEEN '".$di."' and '".$df."'
 						  OR d.data_saida BETWEEN '".$di."' and '".$df."'
 						  OR '".$di."' BETWEEN d.data_entrada and d.data_saida)
@@ -141,7 +141,7 @@
 			while ($row = mysqli_fetch_object($result)) {
 				$soma = $row->soma;
 			}
-		}
+		//}
 		
 		$result = mysqli_query($conn, "SELECT limite FROM categoria where id_cat=".$cat."");
 		

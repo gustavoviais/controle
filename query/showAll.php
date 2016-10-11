@@ -48,7 +48,7 @@
 				  ".$_SESSION['valor']."
 				  ".$_SESSION['obs']."
 		  GROUP BY nf.numero_nf, d.id_details
-		  ORDER BY ".$orderby."
+		  ORDER BY d.id_details desc
 
 		");
 		 
