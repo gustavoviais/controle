@@ -68,9 +68,9 @@
 				$obs = $obs . "...";			
 			
 			if($st == "OK"){				
-						$output.= "<tr style='border-bottom: thin solid #A9A9A9;'>";	
+						$output.= "<tr style='border-bottom: thin solid #A9A9A9;' class='clickable-row' data-href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",2)>";	
 			}else{
-						$output.= "<tr style='color:red;border-bottom: thin solid #A9A9A9;'>";								
+						$output.= "<tr style='color:red;border-bottom: thin solid #A9A9A9;' class='clickable-row' data-href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",2)>";								
 			}
 			
 			if($row->reembolso==0)
@@ -228,7 +228,7 @@
 				FROM details d
 				INNER JOIN usuarios_details ud 
 					ON d.id_details=ud.id_details
-				INNER JOIN usuarios u 
+				INNER JOIN usuarios u
 					ON u.id_usr=ud.id_usr
 				LEFT JOIN empresa e 
 					ON e.id_emp = d.id_emp
@@ -252,6 +252,7 @@
 					  ".$_SESSION['obs']."
 				GROUP BY nf.id_nf, d.id_details) v
 			GROUP BY v.id_nf
+			ORDER BY v.nome_fornecedor, v.numero_nf
 		");
 		
 		$aux=0;
