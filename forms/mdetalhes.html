@@ -88,6 +88,17 @@
 				return false;
 			}
 		}
+		
+		function showQuebra(){
+			if(document.getElementById('quebrar').style.display == "none"){
+				document.getElementById('quebrar').style.display =  "inline";
+				document.getElementById('reembolso').checked =  true;
+				
+			}else{
+				document.getElementById('quebrar').style.display = "none";
+				document.getElementById('reembolso').checked =  false;
+			}
+		}
 	</script>	
 	
 	<style type="text/css">
@@ -202,12 +213,22 @@
 		  <div style="width:22.6%; float:left;margin-left:10px;">
 			  <label for = "name" >Valor Considerado *</label>	  
 			  <input type = "text" class = "form-control" id = "value" name = "value" placeholder = "Digite o valor..." value="[VALUE]">
+			  
+		  </div>		  
+		  <div class="checkbox" style="width:10%; float:left;margin-top:24px;margin-left:10px;">
+		    <input type = "button" class = "btn btn-default" value="Quebrar Detalhe" onclick="return showQuebra();"> 
+			
+		  </div>
+		  <div style="width:13%; float:left;margin-left:10px;display: none;" id="quebrar">
+			  <label for = "name" >Valor do Novo Detalhe *</label>	  
+			  <input type = "text" class = "form-control" id = "novoDetalhe" name = "novoDetalhe" placeholder = "Digite o valor...">			  
 		  </div>
 		  <script type="text/javascript">
 			$("#value").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
 			$("#valor_total").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});		  
+			$("#novoDetalhe").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});		  
 		  </script>
-		  <div class="checkbox" style="width:30%; float:left;margin-top:30px;margin-left:20px;">
+		   <div class="checkbox" style="width:12%; float:left;margin-top:30px;margin-left:20px;">
 		    <label><input type="checkbox" value="1" id="reembolso" name="reembolso" [REEMBOLSO]>Cobrar Reembolso</label>
 		  </div><br><br>
 	   </div>

@@ -1,5 +1,5 @@
 <?php	
-	function cadastra($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $valor_total, $local, $comment, $reembolso){
+	function cadastra($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $valor_total, $local, $comment, $reembolso, $quebraDetalhe){
 		include "query/conexao.php";
 		
 		$di_aux = explode("/", $di);
@@ -7,6 +7,10 @@
 		
 		$df_aux = explode("/", $df);
 		$df = $df_aux[2]."-".$df_aux[1]."-".$df_aux[0];
+		
+		//Reembolso ficará apenas no "Detalhe Quebra", caso ele exista
+		if($quebraDetalhe != "")
+			$reembolso=0;
 						
 		$sql = "INSERT INTO `details` (`id_nf`, `data_entrada`, `data_saida`, `valor`, `valor_total`, `local`, `obs`, `id_emp`, `id_cat`, `user`, `dsy`, `reembolso`)
 				VALUES (".$nf.", '".$di."', '".$df."', ".$value.", ".$valor_total.", '".$local."', '".$comment."', '".$id_emp."', '".$id_cat."', ".$_SESSION["user_id"].", NOW(), ".$reembolso.")";
@@ -24,12 +28,31 @@
 				echo "<script type='text/javascript'>window.alert('Não foi possível realizar o cadastro!');window.location.replace('mdetalhes.php');</script>";						
 		}
 		
+		//Cadastra um segundo detalhe (Se quebraDetalhe == true)
+		if($quebraDetalhe != ""){
+			$sql = "INSERT INTO `details` (`id_nf`, `data_entrada`, `data_saida`, `valor`, `valor_total`, `local`, `obs`, `id_emp`, `id_cat`, `user`, `dsy`, `reembolso`)
+				VALUES (".$nf.", '".$di."', '".$df."', ".$quebraDetalhe.", ".$valor_total.", '".$local."', '".$comment."', '".$id_emp."', '".$id_cat."', ".$_SESSION["user_id"].", NOW(), true)";
+				
+			if ($conn->query($sql) === FALSE)
+				echo "<script type='text/javascript'>window.alert('Não foi possível realizar o cadastroo!');window.location.replace('mdetalhes.php');</script>";		
+			
+			$id_details = getDetail();
+			
+			for($i=0; $i<count($id_usr); $i++){
+				$sql = "INSERT INTO `usuarios_details` (`id_details`, `id_usr`, `user`, `dsy`)
+						VALUES ('".$id_details."', '".$id_usr[$i]."', ".$_SESSION["user_id"].", NOW())";							
+						
+				if ($conn->query($sql) === FALSE)
+					echo "<script type='text/javascript'>window.alert('Não foi possível realizar o cadastro!!');window.location.replace('mdetalhes.php');</script>";						
+			}
+		}		
+		
 		echo "<script type='text/javascript'>window.alert('Cadastrado com sucesso!!');window.location.replace('mdetalhes.php');</script>";
 		
 		$conn->close();
 	}	
 	
-	function edita($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $valor_total, $local, $comment, $reembolso){
+	function edita($id, $nf, $di, $df, $id_usr, $id_emp, $id_cat, $value, $valor_total, $local, $comment, $reembolso, $quebraDetalhe){
 		include "query/conexao.php";
 		
 		$di_aux = explode("/", $di);
@@ -37,6 +60,10 @@
 		
 		$df_aux = explode("/", $df);
 		$df = $df_aux[2]."-".$df_aux[1]."-".$df_aux[0];
+		
+		//Reembolso ficará apenas no "Detalhe Quebra", caso ele exista
+		if($quebraDetalhe != "")
+			$reembolso=0;
 				
 		$sql = "UPDATE `details` 
 					SET `id_nf` = ".$nf.", 
@@ -71,6 +98,26 @@
 				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php?id=".$id."');</script>";						
 		}
 		
+		
+		//Cadastra um segundo detalhe (Se quebraDetalhe == true)
+		if($quebraDetalhe != ""){
+			$sql = "INSERT INTO `details` (`id_nf`, `data_entrada`, `data_saida`, `valor`, `valor_total`, `local`, `obs`, `id_emp`, `id_cat`, `user`, `dsy`, `reembolso`)
+				VALUES (".$nf.", '".$di."', '".$df."', ".$quebraDetalhe.", ".$valor_total.", '".$local."', '".$comment."', '".$id_emp."', '".$id_cat."', ".$_SESSION["user_id"].", NOW(), 1)";
+				
+			if ($conn->query($sql) === FALSE)
+				echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php');</script>";		
+			
+			$id_details = getDetail();
+			
+			for($i=0; $i<count($id_usr); $i++){
+				$sql = "INSERT INTO `usuarios_details` (`id_details`, `id_usr`, `user`, `dsy`)
+						VALUES ('".$id_details."', '".$id_usr[$i]."', ".$_SESSION["user_id"].", NOW())";							
+						
+				if ($conn->query($sql) === FALSE)
+					echo "<script type='text/javascript'>window.alert('Não foi possível atualizar o registro!');window.location.replace('mdetalhes.php');</script>";						
+			}
+		}	
+		
 		echo "<script type='text/javascript'>window.alert('Atualizado com sucesso!!');window.location.replace('mdetalhes.php?id=".$id."');</script>";
 		
 		$conn->close();
@@ -95,6 +142,10 @@
 		echo "<script type='text/javascript'>window.alert('Detalhe excluído com sucesso!');window.location.replace('showAll.php');</script>";
 					
 		$conn->close();
+	}
+	
+	function quebraDetalhe(){
+		
 	}
 	
 	function getDetail(){

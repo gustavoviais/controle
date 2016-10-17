@@ -28,17 +28,23 @@
 				$valor_total = str_replace(".", "", $_POST['valor_total']);
 				$valor_total = str_replace(",", ".", $valor_total);
 				
+				if(isset($_POST['novoDetalhe']) && ($_POST['novoDetalhe']>0)){
+					$novoDetalhe=str_replace(".", "", $_POST['novoDetalhe']);
+					$novoDetalhe = str_replace(",", ".", $novoDetalhe);
+				}else
+					$novoDetalhe="";
+				
 				$reembolso=0;
 				if(isset($_POST['reembolso']))
 					$reembolso = true;
 				
 				if($_POST['sel'] == 0){
 					cadastra($_POST['sel'], $_POST['nf'], $_POST['di'], $_POST['df'], $_POST['sel_usr'], $_POST['sel_emp'], $_POST['sel_cat'], 
-							 $valor, $valor_total, $_POST['local'], $_POST['comment'], $reembolso);
+							 $valor, $valor_total, $_POST['local'], $_POST['comment'], $reembolso, $novoDetalhe);
 				}
 				else{
 					edita($_POST['sel'], $_POST['nf'], $_POST['di'], $_POST['df'], $_POST['sel_usr'], $_POST['sel_emp'], $_POST['sel_cat'], 
-						  $valor, $valor_total, $_POST['local'], $_POST['comment'], $reembolso);
+						  $valor, $valor_total, $_POST['local'], $_POST['comment'], $reembolso, $novoDetalhe);
 				}
 				
 				break;
@@ -67,7 +73,7 @@
 				echo "<script type='text/javascript'>window.location.replace('showAll.php');</script>";
 				//echo "<script type='text/javascript'>setTimeout(function(){window.location.replace('detalhes.php')},3000);</script>";
 				
-				break;
+				break;				
 				
 			case 'save_login':
 				$uname = $_POST['username'];
