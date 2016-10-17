@@ -68,9 +68,9 @@
 				$obs = $obs . "...";			
 			
 			if($st == "OK"){				
-						$output.= "<tr style='border-bottom: thin solid #A9A9A9;' class='clickable-row' data-href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",2)>";	
+						$output.= "<tr style='border-bottom: thin solid #A9A9A9;' >";	
 			}else{
-						$output.= "<tr style='color:red;border-bottom: thin solid #A9A9A9;' class='clickable-row' data-href='#modalDetalhes' data-toggle='modal' data-target='#modalDetalhes' onClick=setModalValue(".$row->id_details.",2)>";								
+						$output.= "<tr style='color:red;border-bottom: thin solid #A9A9A9;' >";								
 			}
 			
 			if($row->reembolso==0)
